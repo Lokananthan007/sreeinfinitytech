@@ -1,24 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ScrollToTop from './utils/ScrollToTop'; 
+import { useState, useEffect } from "react";
+import "./App.css";
+import Menubar from "./navbar/Menubar";
+import Home from "./components/Home";
+import About from "./components/About";
+import Loader from "./animation/Loader";
+import SoftwareService from "./components/SoftwareService";
+import Footercontent from './footer/Footercontent';
+import WebServices from "./components/WebServices";
+import AppService from "./components/AppService";
+import Digital from "./components/Digital";
+import WorkDelivered from "./components/WorkDelivered";
+import ContactUs from "./components/ContactUs";
+
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Router>
+          <ScrollToTop /> 
+          <Menubar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/service/software development" element={<SoftwareService />} />
+            <Route path="/service/web development" element={<WebServices />} />
+            <Route path="/service/app development" element={<AppService />} />
+            <Route path="/service/digital marketing" element={<Digital />} />
+            <Route path="/work delivered" element={<WorkDelivered />} />
+            <Route path="/contact us" element={<ContactUs />} />
+          </Routes>
+          <Footercontent />
+        </Router>
+      )}
+    </>
   );
 }
 
